@@ -32,7 +32,8 @@ public class To extends Abstract {
             this.unit.setY(this.unit.getY() + (Vector.getLen() / Vector.getDelta()) * Vector.getDeltaY());
 
             try {
-                System.out.println(this.unit.getName() + " - " + this.unit.getPosition());
+//                System.out.println(this.unit.getName() + " - " + this.unit.getPosition());
+                this.unit.draw();
                 sleep(delay);
             } catch (InterruptedException e) {
                 interrupt();
@@ -41,7 +42,7 @@ public class To extends Abstract {
 
             steps--;
         }
-        System.out.println(this.unit.getName() + " - " + this.unit.getPosition());
+//        System.out.println(this.unit.getName() + " - " + this.unit.getPosition());
 
         this.unit.setY((float) this.unit.getY());
         this.unit.setX((float) this.unit.getX());

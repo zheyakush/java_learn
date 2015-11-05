@@ -2,16 +2,21 @@ package game.unit;
 
 import game.unit.Command.Move.To;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public abstract class Abstract {
-    private String name = "";
-    private double x = 0;
-    private double y = 0;
-    private double speed = 0;
+    protected JPanel canvas;
+    protected String name = "";
+    protected double x = 0;
+    protected double y = 0;
+    protected double speed = 0;
     private game.unit.Command.Abstract currentAction = null;
     private Queue<game.unit.Command.Abstract> actionQueue = new LinkedList<>();
+
+    public abstract JPanel draw();
 
     public String getName() {
         return name;

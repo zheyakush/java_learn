@@ -1,6 +1,5 @@
-package game.unit.Command.Move;
+package game.unit.Command.Fight;
 
 abstract public class Abstract extends game.unit.Command.Abstract {
-    abstract public void move();
-}
 
+}

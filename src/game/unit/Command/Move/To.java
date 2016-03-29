@@ -1,5 +1,7 @@
 package game.unit.Command.Move;
 
+import game.Game;
+
 public class To extends Abstract {
 
     private game.unit.Abstract unit;
@@ -25,26 +27,34 @@ public class To extends Abstract {
         Vector.calculateLen();
 
         int steps = Vector.getDelta();
-        long delay = Math.round(this.unit.getSpeed() * Vector.getLen() / Vector.getDelta());
-
+        long delay = Math.round((this.unit.getSpeed() * Vector.getLen()) / Vector.getDelta());
+//        Game.log(this.unit.getSpeed() + "*" + Vector.getLen() + "/" + Vector.getDelta());
         while (steps > 0) {
-            this.unit.setX(this.unit.getX() + (Vector.getLen() / Vector.getDelta()) * Vector.getDeltaX());
-            this.unit.setY(this.unit.getY() + (Vector.getLen() / Vector.getDelta()) * Vector.getDeltaY());
-
+            if (steps == 1) {
+                this.unit.setX(this.newX);
+                this.unit.setY(this.newY);
+            } else {
+                int newX = (int) Math.round(this.unit.getX() + (Vector.getLen() / Vector.getDelta()) * Vector.getDeltaX());
+                int newY = (int) Math.round(this.unit.getY() + (Vector.getLen() / Vector.getDelta()) * Vector.getDeltaY());
+                this.unit.setX(newX < 0 ? this.newX : newX);
+                this.unit.setY(newY < 0 ? this.newY : newY);
+            }
             try {
-                System.out.println(this.unit.getName() + " - " + this.unit.getPosition());
+//                Game.log(steps + ": " + this.unit.getName() + " - " + this.unit.getPosition());
+                Game.log(this.unit.getPosition());
                 sleep(delay);
             } catch (InterruptedException e) {
                 interrupt();
+//                Game.log(e.getMessage());
                 return;
             }
-
             steps--;
-        }
-        System.out.println(this.unit.getName() + " - " + this.unit.getPosition());
 
-        this.unit.setY((float) this.unit.getY());
-        this.unit.setX((float) this.unit.getX());
+        }
+//        Game.log(this.unit.getName() + " - " + this.unit.getPosition());
+
+        this.unit.setY(this.unit.getY());
+        this.unit.setX(this.unit.getX());
     }
 
     @Override
@@ -120,7 +130,7 @@ public class To extends Abstract {
         }
 
         public int getDelta() {
-            return 5;
+            return 50;
         }
     }
 }

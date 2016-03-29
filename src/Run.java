@@ -1,57 +1,68 @@
+import game.Game;
 import game.unit.Abstract;
-import game.unit.Unit1;
+import game.unit.Builder;
+import game.unit.Soldier;
 
 public class Run {
-    // @todo: Have to implement smart multi-threading
-    public static void main(String args[]) throws InterruptedException {
+    public static final boolean isDebugMode = true;
 
-        /** Unit 3 */
+    public static void main(String args[]) {
+
+        Game.isDebugMode = isDebugMode;
+
+//        /** Unit 3 */
         Thread myThready1 = new Thread(() -> {
-            Abstract unit1 = new Unit1();
-            unit1.setName("Unit1");
-            unit1.setSpeed(500);
-            unit1.setX(5);
-            unit1.setY(5);
+            Abstract soldier = new Soldier();
+
+            soldier.execute("To", 300, 300);
+            Game.sleep(5000);
+            soldier.execute("To", 300, 0);
+            Game.sleep(5000);
+            soldier.execute("To", 0, 250);
+            soldier.
+//            Game.sleep(10000);
+//            soldier.execute("To", 300, 150);
+//            Game.sleep(10000);
+//            soldier.execute("To", 300, 300);
+//            Game.sleep(10000);
+//            soldier.execute("To", 0, 195);
             try {
-                unit1.execute("To", 5, 2);
-                Thread.sleep(1000);
-                unit1.execute("To", 7, 1);
-                Thread.sleep(1000);
-                unit1.execute("To", 9, 2);
-                Thread.sleep(1000);
-                unit1.execute("To", 7, 3);
-                Thread.sleep(1000);
-                unit1.execute("To", 5, 5);
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+                soldier.getCurrentAction().join();
+            } catch (InterruptedException e) {
+                Game.log(e.getStackTrace().toString());
             }
+
+            Game.log("=== FINISH ===");
         });
 
         Thread myThready2 = new Thread(() -> {
-            Abstract unit2 = new Unit1();
-            unit2.setName("Unit2");
-            unit2.setSpeed(1000);
-            unit2.setX(4);
-            unit2.setY(4);
+            Abstract builder = new Builder();
 
-            try {
-                unit2.execute("To", 5, 2);
-                Thread.sleep(1000);
-                unit2.execute("To", 7, 1);
-                Thread.sleep(300);
-                unit2.execute("To", 9, 2);
-                Thread.sleep(300);
-                unit2.execute("To", 7, 3);
-                Thread.sleep(300);
-                unit2.execute("To", 4, 4);
-                Thread.sleep(300);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+            builder.execute("To", 5, 2);
+            Game.sleep(300);
+            Game.log(builder.getName() + " - " + builder.getPosition());
+            builder.execute("To", 7, 1);
+            Game.sleep(300);
+            Game.log(builder.getName() + " - " + builder.getPosition());
+            builder.execute("To", 9, 2);
+            Game.sleep(300);
+            Game.log(builder.getName() + " - " + builder.getPosition());
+            builder.execute("To", 7, 3);
+            Game.sleep(300);
+            Game.log(builder.getName() + " - " + builder.getPosition());
+            builder.execute("To", 4, 4);
+            Game.sleep(300);
+            Game.log(builder.getName() + " - " + builder.getPosition());
+
+//            1. create
+//            2. goTo(200, 200)
+//            3. doSomething()
+//            4. goTo(0, 0)
+
+
         });
 
         myThready1.start();
-        myThready2.start();
+//        myThready2.start();
     }
 }
